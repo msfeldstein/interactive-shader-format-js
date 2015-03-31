@@ -1,5 +1,7 @@
 # ISF-JS-Renderer
 
+Renders ISF Effects and Compositions into a canvas
+
 Build with browserify
 
 ```
