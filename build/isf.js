@@ -15,7 +15,6 @@ function ISFBuffer(pass) {
 }
 
 ISFBuffer.prototype.setSize = function(w, h) {
-  var len, ref, results;
   if (this.width !== w || this.height !== h) {
     this.width = w;
     this.height = h;
