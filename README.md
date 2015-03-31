@@ -10,14 +10,8 @@ var gl = canvas.getContext("webgl");
 # Instantiate the renderer with your webgl context
 var renderer = new ISFRenderer(gl);
 
-# Instantiate a parser
-var parser = new ISFParser()
-
-# Parse the ISF Source code
-parser.parse(isfFragmentSource, optionalIsfVertexSource);
-
-# Send the Parsed Codes into the renderer
-renderer.sourceChanged(parser.fragmentShader, parser.vertexShader, parser);
+# Load up the source
+renderer.loadSource(fragmentISF, optionalVertexISF);
 
 # Set up any values passing either numbers, arrays of numbers, or image/video elements
 renderer.setValue("someInput", someValue);

@@ -425,6 +425,7 @@ exports.ISFParser = ISFParser;
 var ISFGL = require("./ISFGL.js").ISFGL;
 var ISFGLProgram = require("./ISFGLProgram.js").ISFGLProgram;
 var ISFBuffer = require("./ISFBuffer.js").ISFBuffer;
+var ISFParser = require("./ISFParser.js").ISFParser;
 var ISFTexture = require("./ISFTexture.js").ISFTexture;
 
 var bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
@@ -439,6 +440,12 @@ function ISFRenderer(gl) {
   ISFGL.init(this.gl);
   this.setupPaintToScreen();
   this.startTime = Date.now();
+}
+
+ISFRenderer.prototype.loadSource = function(fragmentISF, vertexISFOpt) {
+  var parser = new ISFParser()
+  parser.parse(fragmentISF, vertexISFOpt);
+  this.sourceChanged(parser.fragmentShader, parser.vertexShader, parser);
 }
 
 ISFRenderer.prototype.sourceChanged = function(fragmentShader, vertexShader, model) {
@@ -771,7 +778,7 @@ ISFRenderer.prototype.basicFragmentShader = "precision mediump float;\nuniform s
 
 exports.ISFRenderer = ISFRenderer;
 
-},{"./ISFBuffer.js":1,"./ISFGL.js":2,"./ISFGLProgram.js":3,"./ISFTexture.js":6}],6:[function(require,module,exports){
+},{"./ISFBuffer.js":1,"./ISFGL.js":2,"./ISFGLProgram.js":3,"./ISFParser.js":4,"./ISFTexture.js":6}],6:[function(require,module,exports){
 var ISFGL = require("./ISFGL.js").ISFGL;
 
 function ISFTexture(params) {
