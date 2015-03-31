@@ -6,7 +6,7 @@
     "Michael Feldstein <msfeldstein@gmail.com>"
   ],
   "description": "Renders Interactive Shader Format shaders into a canvas or WebGL texture",
-  "main": "main.js",
+  "main": "build/isf.js",
   "keywords": [
     "webgl",
     "Interactive",
@@ -14,6 +14,9 @@
     "Format",
     "3d"
   ],
+  "devDependencies": {
+    "browserify": "*"
+  },
   "license": "hmm",
   "ignore": [
     "**/.*",
