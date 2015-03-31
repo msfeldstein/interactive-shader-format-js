@@ -20,6 +20,16 @@ renderer.setValue("someInput", someValue);
 renderer.draw(canvas);
 ```
 
+## Raw ISF Parsing
+
+Use the ISFParser class to parse ISF Fragment and Vertex shaders to GLSL shaders and an input data-mapping.
+
+```
+var parser = new ISFParser();
+parser.parse(fragmentISF, optionalVertexISF);
+console.log(parser.fragmentShader, parser.vertexShader, parser.inputs);
+```
+
 ## Building
 
 Build with browserify
