@@ -20,9 +20,18 @@
         parser.parse(source);
         renderer.sourceChanged(parser.fragmentShader, parser.vertexShader, parser);
         var time = 0;
-        renderer.setValue("h", 0.3);
-        renderer.setValue("j", 0.7);
+        renderer.setValue("master_zoom", 1.0);
+        renderer.setValue("red_zoom", 1.0);
+        renderer.setValue("blue_zoom", 1.3);
+        renderer.setValue("green_zoom", 1.5);
+        renderer.setValue("center", [0.5, 0.5]);
+        var image = document.createElement("img");
+        image.src = "./tycho.png"
+        image.crossOrigin = "anonymous"
+        renderer.setValue("inputImage", image)
+
         var animate = function () {
+          renderer.setValue("inputImage", image)
           renderer.setValue("TIME", time)
           renderer.draw(canvas);
           time += 0.01;
@@ -37,62 +46,75 @@
       <script id="isf-source" type="text/isf">
 
       /*{
-        "CREDIT": "by echophons",
-        "DESCRIPTION": "",
-        "CATEGORIES": [ "generator"
-        ],
-        "INPUTS": [
-          {
-            "NAME": "h",
-            "TYPE": "float",
-            "DEFAULT": 0.5,
-            "MIN": 0.0,
-            "MAX": 1.0
-          },
-          {
-            "NAME": "j",
-            "TYPE": "float",
-            "DEFAULT": 0.5,
-            "MIN": 0.0,
-            "MAX": 1.0
-          }
-        ]
+      	"CREDIT": "by toneburst",
+      	"CATEGORIES": [
+      		"Toneburst", "Stylize"
+      	],
+      	"INPUTS": [
+      		{
+      			"NAME": "inputImage",
+      			"TYPE": "image"
+      		},
+      		{
+      			"NAME": "master_zoom",
+      			"TYPE": "float",
+      			"MIN": 0.1,
+      			"MAX": 2.0,
+      			"DEFAULT": 1.0
+      		},
+      		{
+      			"NAME": "red_zoom",
+      			"TYPE": "float",
+      			"MIN": 1.0,
+      			"MAX": 1.5,
+      			"DEFAULT": 1.0
+      		},
+      		{
+      			"NAME": "green_zoom",
+      			"TYPE": "float",
+      			"MIN": 1.0,
+      			"MAX": 1.5,
+      			"DEFAULT": 1.0
+      		},
+      		{
+      			"NAME": "blue_zoom",
+      			"TYPE": "float",
+      			"MIN": 1.0,
+      			"MAX": 1.5,
+      			"DEFAULT": 1.0
+      		},
+      		{
+      			"NAME": "center",
+      			"TYPE": "point2D",
+      			"DEFAULT": [
+      				0.5,
+      				0.5
+      			]
+      		}
+      	]
       }*/
 
-      // edit of http://glslsandbox.com/e#18752.0
-      uniform vec2 mouse;
+      void main() {
+      	vec2		loc;
+      	vec2		modifiedCenter;
 
-      vec3   iResolution = vec3(RENDERSIZE, 1.0);
-      float  iGlobalTime = TIME;
+      	loc = vv_FragNormCoord;
+      	modifiedCenter = center / RENDERSIZE;
 
-      float gTime = iGlobalTime*0.5;
+      	vec2 locR = (loc - modifiedCenter)*(1.0/(red_zoom*master_zoom)) + modifiedCenter;
+      	vec2 locG = (loc - modifiedCenter)*(1.0/(green_zoom*master_zoom)) + modifiedCenter;
+      	vec2 locB = (loc - modifiedCenter)*(1.0/(blue_zoom*master_zoom)) + modifiedCenter;
 
-      void main( void )
-      {
-        float f = 3.0;
-        float g = 3.0;
-        vec2 res = iResolution.xy;
-        vec2 mou = mouse.xy;
+      	vec4 outPix;
+      	outPix.r = IMG_NORM_PIXEL(inputImage,locR).r;
+      	outPix.g = IMG_NORM_PIXEL(inputImage,locG).g;
+      	outPix.b = IMG_NORM_PIXEL(inputImage,locB).b;
 
-        //if (mouse.x < 0.5)
-        //{
-        mou.x = sin(gTime * .3)*sin(gTime * .17) * 1. + sin(gTime * .3);
-        mou.y = (1.0-cos(gTime * .632))*sin(gTime * .131)*1.0+cos(gTime * .3);
-        mou = (mou+1.0) * res;
-        //}
-        vec2 z = ((-res+2.0 * gl_FragCoord.xy) / res.y);
-        vec2 p = ((-res+2.0+mou) / res.y) * j;
-        for( int i = 0; i < 25; i++)
-        {
-          float d = dot(z,z);
-          z = (vec2( z.x, -z.y ) / d) + p * h;
-          z.x =  1.0-abs(z.x);
-          f = max( f-d, (dot(z-p,z-p) ));
-          g = min( g*d, sin(dot(z+p,z+p))+1.0);
-        }
-        f = abs(-log(f) / 3.5);
-        g = abs(-log(g) / 8.0);
-        gl_FragColor = vec4(min(vec3(g, g*f, f), 1.0),1.0);
+      	loc.x = (loc.x - modifiedCenter.x)*(1.0/master_zoom) + modifiedCenter.x;
+      	loc.y = (loc.y - modifiedCenter.y)*(1.0/master_zoom) + modifiedCenter.y;
+
+      	outPix.a = IMG_NORM_PIXEL(inputImage,loc).a;
+      	gl_FragColor = outPix;
       }
 
       </script>
