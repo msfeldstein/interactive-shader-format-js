@@ -447,7 +447,12 @@ ISFRenderer.prototype.sourceChanged = function(fragmentShader, vertexShader, mod
   this.model = model;
   this.setupGL();
   this.initUniforms();
-  // return this.pushUniforms();
+  for (var i = 0; i < model.inputs.length; i++) {
+    var input = model.inputs[i];
+    if (input.DEFAULT !== undefined) {
+      this.setValue(input.NAME, input.DEFAULT);
+    }
+  }
 };
 
 ISFRenderer.prototype.initUniforms = function() {
@@ -471,6 +476,10 @@ ISFRenderer.prototype.initUniforms = function() {
 ISFRenderer.prototype.setValue = function(name, value) {
   var uniform;
   uniform = this.uniforms[name];
+  if (!uniform) {
+    console.error("No uniform named " + name);
+    return;
+  }
   uniform.value = value;
   if (uniform.type === 't') {
     uniform.textureLoaded = false;
