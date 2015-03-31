@@ -15,17 +15,14 @@ function ISFBuffer(pass) {
 }
 
 ISFBuffer.prototype.setSize = function(w, h) {
-  var i, len, ref, results, texture;
+  var len, ref, results;
   if (this.width !== w || this.height !== h) {
     this.width = w;
     this.height = h;
-    ref = this.textures;
-    results = [];
-    for (i = 0, len = ref.length; i < len; i++) {
-      texture = ref[i];
-      results.push(texture.setSize(w, h));
+    for (var i = 0; i < this.textures.length; i++) {
+      var texture = this.textures[i];
+      texture.setSize(w, h);
     }
-    return results;
   }
 };
 
@@ -50,10 +47,8 @@ ISFBuffer.prototype.flip = function() {
 };
 
 ISFBuffer.prototype.destroy = function() {
-  var i, len, ref, texture;
-  ref = this.textures;
-  for (i = 0, len = ref.length; i < len; i++) {
-    texture = ref[i];
+  for (var i = 0; i < this.textures.length; i++) {
+    var texture = this.textures[i];
     texture.destroy();
   }
   return this.gl.deleteFramebuffer(this.fbo);
@@ -107,9 +102,8 @@ ISFGLProgram.prototype.setUniform1i = function(uniformName, value) {
 };
 
 ISFGLProgram.prototype.bindVertices = function() {
-  var positionLocation;
   this.use();
-  positionLocation = this.gl.getAttribLocation(this.program, "position");
+  var positionLocation = this.gl.getAttribLocation(this.program, "position");
   this.buffer = this.gl.createBuffer();
   this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.buffer);
   this.gl.bufferData(this.gl.ARRAY_BUFFER, new Float32Array([-1.0, -1.0, 1.0, -1.0, -1.0, 1.0, -1.0, 1.0, 1.0, -1.0, 1.0, 1.0]), this.gl.STATIC_DRAW);
@@ -125,13 +119,12 @@ ISFGLProgram.prototype.cleanup = function() {
 };
 
 ISFGLProgram.prototype.createShader = function(src, type) {
-  var compiled, lastError, shader;
-  shader = this.gl.createShader(type);
+  var shader = this.gl.createShader(type);
   this.gl.shaderSource(shader, src);
   this.gl.compileShader(shader);
-  compiled = this.gl.getShaderParameter(shader, this.gl.COMPILE_STATUS);
+  var compiled = this.gl.getShaderParameter(shader, this.gl.COMPILE_STATUS);
   if (!compiled) {
-    lastError = this.gl.getShaderInfoLog(shader);
+    var lastError = this.gl.getShaderInfoLog(shader);
     console.log("Error Compiling Shader ", lastError);
     throw {
       message: lastError,
@@ -142,14 +135,13 @@ ISFGLProgram.prototype.createShader = function(src, type) {
 };
 
 ISFGLProgram.prototype.createProgram = function(vShader, fShader) {
-  var lastError, linked, program;
-  program = this.gl.createProgram();
+  var program = this.gl.createProgram();
   this.gl.attachShader(program, vShader);
   this.gl.attachShader(program, fShader);
   this.gl.linkProgram(program);
-  linked = this.gl.getProgramParameter(program, this.gl.LINK_STATUS);
+  var linked = this.gl.getProgramParameter(program, this.gl.LINK_STATUS);
   if (!linked) {
-    lastError = this.gl.getProgramInfoLog(program);
+    var lastError = this.gl.getProgramInfoLog(program);
     console.log("Error in program linking", lastError);
     throw {
       message: lastError,
@@ -481,8 +473,7 @@ ISFRenderer.prototype.initUniforms = function() {
 };
 
 ISFRenderer.prototype.setValue = function(name, value) {
-  var uniform;
-  uniform = this.uniforms[name];
+  var uniform = this.uniforms[name];
   if (!uniform) {
     console.error("No uniform named " + name);
     return;
@@ -810,11 +801,10 @@ ISFTexture.prototype.bind = function(location) {
 };
 
 ISFTexture.prototype.setSize = function(w, h) {
-  var pixelType;
   if (this.width !== w || this.height !== h) {
     this.width = w;
     this.height = h;
-    pixelType = this.float ? this.gl.FLOAT : this.gl.UNSIGNED_BYTE;
+    var pixelType = this.float ? this.gl.FLOAT : this.gl.UNSIGNED_BYTE;
     this.gl.bindTexture(this.gl.TEXTURE_2D, this.texture);
     return this.gl.texImage2D(this.gl.TEXTURE_2D, 0, this.gl.RGBA, w, h, 0, this.gl.RGBA, pixelType, null);
   }
