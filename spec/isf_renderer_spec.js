@@ -14,15 +14,18 @@ describe("ISFRenderer", function() {
 
   it("should render a sketch with no parameters correctly", function() {
     var expectedOutput = new WebGL.Image();
-    var imageContent = fs.readFileSync("spec/expected/dark.png")
+    var imageContent = fs.readFileSync("spec/files/dark.png")
     expectedOutput.src = imageContent;
 
     var canvas = document.createElement('canvas');
     canvas.width = 500;
     canvas.height = 500;
     var gl = canvas.getContext("webgl");
-    console.log("GL", gl)
-    expect(true).toBeTruthy();
+
+    var source = fs.readFileSync("spec/files/no-parameters.fs")
+    var renderer = new ISFRenderer(gl);
+    renderer.loadSource(source.toString());
+    renderer.draw(canvas);
   });
 
 
