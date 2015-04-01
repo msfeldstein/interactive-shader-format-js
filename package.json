@@ -30,6 +30,7 @@
   "devDependencies": {
     "canvas": "^1.2.1",
     "imagediff": "^1.0.8",
-    "jasmine": "^2.2.1"
+    "jasmine": "^2.2.1",
+    "node-webgl": "^0.4.3"
   }
 }

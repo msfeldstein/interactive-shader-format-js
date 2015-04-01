@@ -43,3 +43,16 @@ or
 npm install -g watchify
 watchify main.js -o build/main.js
 ```
+
+## Testing
+
+Testing requires node-webgl which has a lot of dependencies, here's the steps that I think you'll need but you'll probably run into errors.  I feel like there's a better way of installing all these dependencies so if i'm missing something like `npm install --with-dependencies` please let me know.
+
+```
+brew tap homebrew/versions
+brew install glfw3
+brew install glew
+brew install AntTweakBar
+brew install FreeImage
+npm install
+```
