@@ -2,6 +2,8 @@
 
 Renders ISF Effects and Compositions into a canvas
 
+[http://www.interactiveshaderformat.com/]([http://www.interactiveshaderformat.com/])
+
 ## Example
 
 ```
