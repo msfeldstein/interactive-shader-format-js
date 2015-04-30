@@ -15,8 +15,10 @@
       var canvas = null;
       window.addEventListener("load", function() {
         canvas = document.getElementById("output");
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
+        canvas.width = window.innerWidth * window.devicePixelRatio;
+        canvas.height = window.innerHeight * window.devicePixelRatio;
+        canvas.style.height = window.innerHeight + "px";
+        canvas.style.width = window.innerWidth + "px";
         var animate = function () {
           requestAnimationFrame(animate);
           if (!renderer || !video) return;
