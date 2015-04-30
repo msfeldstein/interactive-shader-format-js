@@ -8,66 +8,8 @@
       }
     </style>
     <script src="../build/main.js"></script>
-    <script>
-      var renderer = null;
-      var video = null;
-      var time = 0;
-      var canvas = null;
-      window.addEventListener("load", function() {
-        canvas = document.getElementById("output");
-        canvas.width = window.innerWidth * window.devicePixelRatio;
-        canvas.height = window.innerHeight * window.devicePixelRatio;
-        canvas.style.height = window.innerHeight + "px";
-        canvas.style.width = window.innerWidth + "px";
-        var animate = function () {
-          requestAnimationFrame(animate);
-          if (!renderer || !video) return;
-          renderer.setValue("inputImage", video);
-          renderer.setValue("TIME", time);
-          renderer.draw(canvas);
-          time += 0.01;
-        }
-        animate();
-        video = document.createElement('video');
-        var videoStarted = function(localMediaStream) {
-          video.src = URL.createObjectURL(localMediaStream)
-          video.play()
-          video.loop = true
-        }
-        var videoError = function(e) {
-        }
-        navigator.webkitGetUserMedia({video:true}, videoStarted, videoError)
-        var loadSrc = function(fsSource, vsSource) {
-          var gl = canvas.getContext("webgl");
-          renderer = renderer || new ISFRenderer(gl);
-          renderer.loadSource(fsSource, vsSource);
-        }
-        window.loadShader = function(fsFilename, vsFilename) {
-          fetch(fsFilename).then(function(response){
-            response.text().then(function(fsSrc){
-              if (vsFilename) {
-                fetch(vsFilename).then(function(response){
-                  response.text().then(function(vsSrc) {
-                    loadSrc(fsSrc, vsSrc);
-                  });
-                })
-              } else {
-                loadSrc(fsSrc)
-              }
-
-            });
-          })
-        }
-      })
-    </script>
+    <script src="./app.js"></script>
   </head>
   <body>
-      <div style="position:fixed;top:0">
-        <a href="#" onclick="loadShader('badtv.fs')">BadTV</a>
-        <a href="#" onclick="loadShader('rgbtimeglitch.fs')">RGB Glitch Mod (lots of buffers)</a>
-        <a href="#" onclick="loadShader('edges.fs', 'edges.vs')">Edges (uses vertex shader)</a>
-      </div>
-      <canvas id="output"></canvas>
-
   </body>
 </html>

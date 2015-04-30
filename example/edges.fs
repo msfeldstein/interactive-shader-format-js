@@ -20,7 +20,7 @@
 			"TYPE": "float",
 			"MIN": 0.0,
 			"MAX": 1.0,
-			"DEFAULT": 0.0
+			"DEFAULT": 0.5
 		},
 		{
 			"NAME": "sobel",
