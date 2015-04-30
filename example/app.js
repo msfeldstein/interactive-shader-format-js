@@ -28,7 +28,6 @@ function createRendering(fsFilename, vsFilename) {
     renderer.loadSource(fsSrc, vsSrc);
     var animate = function () {
       requestAnimationFrame(animate);
-      if (!renderer || !video) return;
       renderer.setValue("inputImage", video);
       renderer.setValue("TIME", time);
       renderer.draw(canvas);
