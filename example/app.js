@@ -19,10 +19,20 @@ function createRendering(fsFilename, vsFilename) {
     }
   }
   var vsLoaded = function(vsSrc) {
+    var container = document.createElement('div');
     var canvas = document.createElement('canvas');
+    var title = document.createElement('div');
+    title.style.position = 'absolute';
+    title.style.top = '0'
+    title.style.color = 'white';
+    title.style.left = '0'
+    container.style.position = 'relative';
+    container.appendChild(canvas);
+    container.appendChild(title);
+    title.textContent = fsFilename;
     canvas.width = window.innerWidth / 2;
     canvas.height = window.innerHeight / 2;
-    document.body.appendChild(canvas);
+    document.body.appendChild(container);
     var gl = canvas.getContext("webgl");
     var renderer = new ISFRenderer(gl);
     renderer.loadSource(fsSrc, vsSrc);
@@ -50,6 +60,7 @@ window.addEventListener("load", function() {
   }
   navigator.webkitGetUserMedia({video:true}, videoStarted, videoError)
   createRendering('badtv.fs');
+  createRendering('feedback.fs');
   createRendering('rgbtimeglitch.fs');
   createRendering('rgbglitchmod.fs');
   createRendering('edges.fs', 'edges.vs');
