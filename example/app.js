@@ -53,5 +53,5 @@ window.addEventListener("load", function() {
   createRendering('rgbtimeglitch.fs');
   createRendering('rgbglitchmod.fs');
   createRendering('edges.fs', 'edges.vs');
-  createRendering('tapestryfract.fs');
+  // createRendering('tapestryfract.fs');
 })
