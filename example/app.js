@@ -60,7 +60,7 @@ window.addEventListener("load", function() {
   }
   navigator.webkitGetUserMedia({video:true}, videoStarted, videoError)
   createRendering('badtv.fs');
-  createRendering('feedback.fs');
+  // createRendering('feedback.fs');
   createRendering('rgbtimeglitch.fs');
   createRendering('rgbglitchmod.fs');
   createRendering('edges.fs', 'edges.vs');
