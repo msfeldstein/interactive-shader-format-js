@@ -8,7 +8,7 @@ function loadFile(src, callback) {
   })
 }
 
-function createRendering(fsFilename, vsFilename) {
+function createRendering(fsFilename, vsFilename, label) {
   var fsSrc;
   var fsLoaded = function(response) {
     fsSrc = response;
@@ -30,6 +30,9 @@ function createRendering(fsFilename, vsFilename) {
     container.appendChild(canvas);
     container.appendChild(title);
     title.textContent = fsFilename;
+    if (label) {
+      title.textContent += "(" + label + ")"
+    }
     canvas.width = window.innerWidth / 2;
     canvas.height = window.innerHeight / 2;
     document.body.appendChild(container);
@@ -59,10 +62,10 @@ window.addEventListener("load", function() {
   var videoError = function(e) {
   }
   navigator.webkitGetUserMedia({video:true}, videoStarted, videoError)
-  createRendering('badtv.fs');
-  // createRendering('feedback.fs');
-  createRendering('rgbtimeglitch.fs');
-  createRendering('rgbglitchmod.fs');
-  createRendering('edges.fs', 'edges.vs');
+  createRendering('badtv.fs', undefined, "Simple");
+  createRendering('feedback.fs', undefined, "Has target on last pass");
+  createRendering('rgbtimeglitch.fs', undefined, "Has lots of buffers and passes");
+  createRendering('rgbglitchmod.fs', undefined, "Has target on last pass");
+  createRendering('edges.fs', 'edges.vs', "Has custom vertex shader");
   // createRendering('tapestryfract.fs');
 })
