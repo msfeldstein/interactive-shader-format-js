@@ -1,0 +1,28 @@
+{
+  "name": "ISF-JS-Renderer",
+  "version": "0.0.1",
+  "homepage": "https://github.com/msfeldstein/ISF-JS-Renderer",
+  "authors": [
+    "Michael Feldstein <msfeldstein@gmail.com>"
+  ],
+  "description": "Renders Interactive Shader Format shaders into a canvas or WebGL texture",
+  "main": "build/isf.js",
+  "keywords": [
+    "webgl",
+    "Interactive",
+    "Shader",
+    "Format",
+    "3d"
+  ],
+  "devDependencies": {
+    "browserify": "*"
+  },
+  "license": "hmm",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
