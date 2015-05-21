@@ -1,0 +1,28 @@
+{
+  "name": "Interactive-Shader-Format",
+  "version": "1.0.0",
+  "description": "Rendering engine for Interactive Shader Format effects and generators",
+  "main": "main.js",
+  "directories": {
+    "example": "example"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/msfeldstein/ISF-JS-Renderer.git"
+  },
+  "keywords": [
+    "Effects",
+    "FX",
+    "ISF",
+    "GLSL"
+  ],
+  "author": "Michael Feldstein",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/msfeldstein/ISF-JS-Renderer/issues"
+  },
+  "homepage": "https://github.com/msfeldstein/ISF-JS-Renderer"
+}
