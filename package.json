@@ -1,5 +1,5 @@
 {
-  "name": "Interactive-Shader-Format",
+  "name": "interactive-shader-format",
   "version": "1.0.0",
   "description": "Rendering engine for Interactive Shader Format effects and generators",
   "main": "main.js",
