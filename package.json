@@ -24,5 +24,12 @@
   "bugs": {
     "url": "https://github.com/msfeldstein/ISF-JS-Renderer/issues"
   },
-  "homepage": "https://github.com/msfeldstein/ISF-JS-Renderer"
+  "homepage": "https://github.com/msfeldstein/ISF-JS-Renderer",
+  "dependencies": {
+    "budo": "5.1.5"
+  },
+  "devDependencies": {
+    "babelify": "^7.2.0",
+    "brfs": "^1.4.1"
+  }
 }

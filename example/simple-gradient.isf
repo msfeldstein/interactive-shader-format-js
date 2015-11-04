@@ -1,0 +1,16 @@
+/*{
+	"CREDIT": "by You",
+	"DESCRIPTION": "",
+	"CATEGORIES": [
+	],
+	"INPUTS": [
+		{
+			"NAME": "inputImage",
+			"TYPE": "image"
+		}
+	]
+}*/
+
+void main() {
+	gl_FragColor = vec4(vv_FragNormCoord.x, 0.0, 1.0, 1.0);
+}
