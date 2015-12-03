@@ -1,0 +1,20 @@
+/*{
+	"CREDIT": "by You",
+	"DESCRIPTION": "",
+	"CATEGORIES": [
+	],
+	"INPUTS": [
+		{
+			"NAME": "sunsetImage",
+			"TYPE": "image"
+		},
+    {
+      "NAME": "frogImage",
+      "TYPE": "image"
+    }
+	]
+}*/
+
+void main() {
+	gl_FragColor = IMG_THIS_PIXEL(sunsetImage) * IMG_THIS_PIXEL(frogImage);
+}

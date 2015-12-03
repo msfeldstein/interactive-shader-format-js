@@ -1,0 +1,19 @@
+/*{
+	"CREDIT": "by You",
+	"DESCRIPTION": "",
+	"CATEGORIES": [
+	],
+	"INPUTS": [
+		{
+			"NAME": "inputImage",
+			"TYPE": "image",
+      "BUFFER_QUEUE_SIZE": 8
+		}
+	]
+}*/
+
+void main() {
+	vec4 mainColor = IMG_THIS_PIXEL(inputImage);
+	vec4 oldestColor = IMG_THIS_PIXEL(inputImage_buffer7);
+	gl_FragColor = mainColor + oldestColor;
+}
