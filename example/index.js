@@ -5,25 +5,21 @@ var canvas = document.createElement('canvas')
 document.body.appendChild(canvas)
 
 
-var src = fs.readFileSync('./two-image.isf').toString()
+var src = fs.readFileSync('./example/shaders/buffer-queue.isf').toString()
 var renderer = new ISFRenderer(canvas.getContext('webgl'))
+window.renderer = renderer
 renderer.loadSource(src)
-var sunset = new Image
-sunset.src = "sunset.jpg"
 
-var frog = new Image
-frog.src = "frog.jpg"
+var video = document.createElement('video')
+video.src = './example/circle.mp4'
+video.loop = true
+video.play()
 
-var imageLoad = function() {
-  if (frog.complete && sunset.complete) {
-    renderer.setValue("frogImage", frog)
-    renderer.setValue("sunsetImage", sunset)
+var draw = function() {
+  requestAnimationFrame(draw)
+  if (video.readyState == 4) {
+    renderer.setValue("inputImage", video)
     renderer.draw(canvas)
   }
 }
-
-frog.onload = imageLoad
-sunset.onload = imageLoad
-
-
-renderer.draw(canvas)
+draw()
