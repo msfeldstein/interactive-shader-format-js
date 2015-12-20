@@ -6,14 +6,19 @@
 	"INPUTS": [
 		{
 			"NAME": "inputImage",
-			"TYPE": "image",
-      "BUFFER_QUEUE_SIZE": 8
+			"TYPE": "image"
 		}
-	]
+	],
+	"BUFFER_QUEUE_SIZE": 8
 }*/
 
 void main() {
 	vec4 mainColor = IMG_THIS_PIXEL(inputImage);
-	vec4 oldestColor = IMG_THIS_PIXEL(inputImage_buffer7);
-	gl_FragColor = mainColor + oldestColor;
+	if (BUFFER_QUEUE_PASS == 1) {
+		gl_FragColor = mainColor;
+	} else {
+		vec4 oldestColor = IMG_THIS_PIXEL(ISF_buffer_queue_6);
+		gl_FragColor =  oldestColor;
+	}
+	
 }
