@@ -1,7 +1,9 @@
+var ISFRenderer = require('../lib/ISFRenderer').ISFRenderer
+
 var video = null;
 var time = 0;
 function loadFile(src, callback) {
-  fetch(src).then(function(response) {
+  fetch("example/" + src).then(function(response) {
     response.text().then(function(body) {
       callback(body);
     })
