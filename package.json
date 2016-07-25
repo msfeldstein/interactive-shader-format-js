@@ -7,7 +7,8 @@
     "example": "example"
   },
   "scripts": {
-    "examples": "budo example/app.js -o -l --host=localhost",
+    "build": "browserify main.js -o build/main.js",
+    "examples": "budo example/app.js -o -l --host=localhost -- -t brfs",
     "test": "nodemon tests/run.js"
   },
   "repository": {
@@ -27,6 +28,8 @@
   },
   "homepage": "https://github.com/msfeldstein/ISF-JS-Renderer",
   "devDependencies": {
+    "brfs": "^1.4.3",
+    "browserify": "^13.1.0",
     "budo": "^8.3.0"
   }
 }

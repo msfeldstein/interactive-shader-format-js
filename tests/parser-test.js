@@ -7,7 +7,6 @@ function assetLoad(name) {
 
 test('Infer Generator Type', function(t) {
 	var generatorSrc = assetLoad('generator.fs')
-	console.log(generatorSrc)
 	var parser = new ISFParser();
 	parser.parse(generatorSrc);
 	t.equal(parser.type, 'generator')
@@ -16,7 +15,6 @@ test('Infer Generator Type', function(t) {
 
 test('Infer Filter Type', function(t) {
 	var generatorSrc = assetLoad('image-filter.fs')
-	console.log(generatorSrc)
 	var parser = new ISFParser();
 	parser.parse(generatorSrc);
 	t.equal(parser.type, 'filter')
@@ -25,7 +23,6 @@ test('Infer Filter Type', function(t) {
 
 test('Infer Transition Type', function(t) {
 	var generatorSrc = assetLoad('transition.fs')
-	console.log(generatorSrc)
 	var parser = new ISFParser();
 	parser.parse(generatorSrc);
 	t.equal(parser.type, 'transition')
