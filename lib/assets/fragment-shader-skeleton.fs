@@ -8,6 +8,7 @@ varying vec2 isf_FragCoord;
 uniform float TIME;
 uniform float TIMEDELTA;
 uniform int FRAMEINDEX;
+uniform vec4 DATE;
 
 [[uniforms]]
 
