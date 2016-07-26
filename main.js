@@ -1,2 +1,2 @@
-exports.ISFRenderer = require("./lib/ISFRenderer.js").ISFRenderer;
-exports.ISFParser = require("./lib/ISFParser.js").ISFParser;
+exports.ISFRenderer = require("./lib/ISFRenderer");
+exports.ISFParser = require("./lib/ISFParser");

@@ -6,7 +6,7 @@ var gl = require('gl')
 var ndarray = require('ndarray')
 var imshow = require("ndarray-imshow")
 var imageDiff = require('image-diff')
-var ISFRenderer = require('../lib/ISFRenderer').ISFRenderer
+var ISFRenderer = require('../lib/ISFRenderer')
 
 function assetLoad(name) {
 	return fs.readFileSync('./tests/assets/' + name).toString()

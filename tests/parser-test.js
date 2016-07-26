@@ -1,6 +1,6 @@
 var test = require('tape')
 var fs = require('fs')
-var ISFParser = require('../lib/ISFParser').ISFParser
+var ISFParser = require('../lib/ISFParser')
 function assetLoad(name) {
 	return fs.readFileSync('./tests/assets/' + name).toString()
 }
