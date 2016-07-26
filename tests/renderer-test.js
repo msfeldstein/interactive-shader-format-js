@@ -31,7 +31,6 @@ function matchFilterToExpected(src, expected, callbacks) {
 	var writableStream = fs.createWriteStream(filename)
 	savePixels(nd, "png").pipe(writableStream)
 	var expectedFilename = expected.split('/')[expected.split('/').length - 1]
-	console.log(expectedFilename)
 	imageDiff({
 		actualImage: filename,
 		expectedImage: expected,
