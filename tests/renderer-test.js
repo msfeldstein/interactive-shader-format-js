@@ -4,7 +4,6 @@ var getPixels = require("get-pixels")
 var savePixels = require("save-pixels")
 var gl = require('gl')
 var ndarray = require('ndarray')
-var imshow = require("ndarray-imshow")
 var imageDiff = require('image-diff')
 var ISFRenderer = require('../lib/ISFRenderer')
 
