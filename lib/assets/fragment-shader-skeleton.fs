@@ -6,6 +6,7 @@ uniform vec2 RENDERSIZE;
 varying vec2 isf_FragNormCoord;
 varying vec2 isf_FragCoord;
 uniform float TIME;
+uniform float TIMEDELTA;
 
 [[uniforms]]
 
