@@ -12,31 +12,65 @@ function assetLoad(name) {
 	return fs.readFileSync('./tests/assets/' + name).toString()
 }
 var width = 128, height = 128
-
-function matchFilterToExpected(src, expected, cb) {
+const destination = {width: width, height: height, offsetWidth: width, offsetHeight: height}
+function matchFilterToExpected(src, expected, callbacks) {
 	var ctx = gl(128, 128)
 	var renderer = new ISFRenderer(ctx)
 	renderer.loadSource(src)
-	renderer.draw({width: width, height: height})
+
+	if (callbacks.steps) {
+		callbacks.steps(renderer)
+	} else {
+		renderer.draw(destination)
+	}
+
 	var pixels = new Uint8Array(width * height * 4)
 	ctx.readPixels(0, 0, width, height, ctx.RGBA, ctx.UNSIGNED_BYTE, pixels)
 	var nd = ndarray(pixels, [width, height, 4])
 	var filename = "tmp/" + Math.random() + ".png"
 	var writableStream = fs.createWriteStream(filename)
 	savePixels(nd, "png").pipe(writableStream)
+	var expectedFilename = expected.split('/')[expected.split('/').length - 1]
+	console.log(expectedFilename)
 	imageDiff({
 		actualImage: filename,
-		expectedImage: './tests/expected/generator.png'
+		expectedImage: expected,
+		diffImage: 'tmp/diff.' + expectedFilename
 	}, function(err, areSame) {
 		if (err) throw err
-		cb(areSame)
+		callbacks.finished(areSame)
 	})
 }
 
 test('Basic Generator Rendering', function(t) {
 	var generatorSrc = assetLoad('generator.fs')
-	matchFilterToExpected(generatorSrc, "./tests/expected/generator.png", (same) => {
-		t.equals(same, true)
-		t.end()
-	})
+	var callbacks = {
+		finished: (same) => {
+			t.equals(same, true)
+			t.end()
+		}
+	}
+	matchFilterToExpected(generatorSrc, "./tests/expected/generator.png", callbacks)
+})
+
+
+test('Persistent Buffers', function(t) {
+	var generatorSrc = assetLoad('persistent-buffers.fs')
+	var callbacks = {
+		steps: (renderer) => {
+			renderer.setValue("xPos", 0)
+			renderer.draw(destination)
+			renderer.setValue("xPos", 0.5)
+			renderer.draw(destination)
+			renderer.setValue("xPos", 1.0)
+			renderer.draw(destination)
+			renderer.draw(destination)
+		},
+
+		finished: (same) => {
+			t.equals(same, true)
+			t.end()
+		}
+	}
+	matchFilterToExpected(generatorSrc, "./tests/expected/persistent-buffers.png", callbacks)
 })

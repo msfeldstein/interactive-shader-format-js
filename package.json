@@ -9,7 +9,7 @@
   "scripts": {
     "build": "browserify main.js -o build/main.js",
     "examples": "budo example/app.js -o -l --host=localhost -- -t brfs",
-    "test": "nodemon tests/run.js"
+    "test": "nodemon tests/run.js | tap-spec"
   },
   "repository": {
     "type": "git",
@@ -35,7 +35,9 @@
     "gl": "^4.0.2",
     "image-diff": "^1.6.1",
     "ndarray-imshow": "^1.0.1",
-    "save-pixels": "^2.3.3"
+    "rmdir": "^1.2.0",
+    "save-pixels": "^2.3.3",
+    "tap-spec": "^4.1.1"
   },
   "dependencies": {
     "ndarray": "^1.0.18"
