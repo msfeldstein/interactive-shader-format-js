@@ -1,3 +1,3 @@
 void main() {
-  vv_vertShaderInit();
+  isf_vertShaderInit();
 }

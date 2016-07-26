@@ -163,7 +163,7 @@ float rand(vec2 co){
 }
 
 void main() {
-	vec2 p = vv_FragNormCoord;
+	vec2 p = isf_FragNormCoord;
 	float ty = TIME*speed;
 	float yt = p.y - ty;
 

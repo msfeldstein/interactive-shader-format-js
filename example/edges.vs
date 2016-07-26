@@ -11,8 +11,8 @@ varying vec2 rightb_coord;
 
 void main()
 {
-	vv_vertShaderInit();
-	vec2 texc = vec2(vv_FragNormCoord[0],vv_FragNormCoord[1]);
+	isf_vertShaderInit();
+	vec2 texc = vec2(isf_FragNormCoord[0],isf_FragNormCoord[1]);
 	vec2 d = 1.0/RENDERSIZE;
 
 	left_coord = clamp(vec2(texc.xy + vec2(-d.x , 0)),0.0,1.0);

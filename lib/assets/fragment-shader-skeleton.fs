@@ -3,8 +3,8 @@ precision highp int;
 
 uniform int PASSINDEX;
 uniform vec2 RENDERSIZE;
-varying vec2 vv_FragNormCoord;
-varying vec2 vv_FragCoord;
+varying vec2 isf_FragNormCoord;
+varying vec2 isf_FragCoord;
 uniform float TIME;
 
 [[uniforms]]

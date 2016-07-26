@@ -48,7 +48,7 @@
 
 void main() {
 
-  vec2 pos = vv_FragNormCoord;
+  vec2 pos = isf_FragNormCoord;
   vec4 old = IMG_NORM_PIXEL(one, pos);
   vec4 new = IMG_NORM_PIXEL(inputImage, pos);
 

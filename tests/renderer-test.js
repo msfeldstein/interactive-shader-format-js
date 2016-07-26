@@ -28,7 +28,6 @@ function matchFilterToExpected(src, expected, cb) {
 		actualImage: filename,
 		expectedImage: './tests/expected/generator.png'
 	}, function(err, areSame) {
-
 		if (err) throw err
 		cb(areSame)
 	})

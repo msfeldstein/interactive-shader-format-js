@@ -28,7 +28,7 @@
 
 void main()
 {
-  vec2 uv = vv_FragNormCoord.xy;
+  vec2 uv = isf_FragNormCoord.xy;
 	vec2 texCoord = uv;
 	//	if this is the first pass, i'm going to read the position from the "lastPosition" image, and write a new position based on this and the hold variables
 

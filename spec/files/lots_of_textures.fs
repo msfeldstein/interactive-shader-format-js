@@ -225,14 +225,14 @@ void main()
 	}
 	else if (PASSINDEX == 9)	{
 		//	Figure out which section I'm in and draw the appropriate buffer there
-		vec2 tex = vv_FragNormCoord;
+		vec2 tex = isf_FragNormCoord;
 		vec4 color = vec4(0.0);
 		//	figure out the "input delay shift" for this pixel...
 		float randomDelayShift = 0.0;
 
 		vec2 xy;
-		xy.x = vv_FragNormCoord[0];
-		xy.y = vv_FragNormCoord[1];
+		xy.x = isf_FragNormCoord[0];
+		xy.y = isf_FragNormCoord[1];
 
 		//	quantize the xy to the glitch_amount size
 		//xy = floor(xy / glitch_size) * glitch_size;
