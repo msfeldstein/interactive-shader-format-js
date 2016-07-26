@@ -8,7 +8,7 @@
   },
   "scripts": {
     "build": "browserify main.js -o build/main.js",
-    "examples": "budo example/app.js -o -l --host=localhost -- -t brfs",
+    "examples": "budo examples/app.js -o -l --host=localhost -- -t brfs",
     "test": "nodemon tests/run.js | tap-spec"
   },
   "repository": {
