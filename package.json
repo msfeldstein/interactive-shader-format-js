@@ -30,6 +30,14 @@
   "devDependencies": {
     "brfs": "^1.4.3",
     "browserify": "^13.1.0",
-    "budo": "^8.3.0"
+    "budo": "^8.3.0",
+    "get-pixels": "^3.3.0",
+    "gl": "^4.0.2",
+    "image-diff": "^1.6.1",
+    "ndarray-imshow": "^1.0.1",
+    "save-pixels": "^2.3.3"
+  },
+  "dependencies": {
+    "ndarray": "^1.0.18"
   }
 }
