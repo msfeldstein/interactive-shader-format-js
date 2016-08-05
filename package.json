@@ -27,6 +27,7 @@
   "bugs": {
     "url": "https://github.com/msfeldstein/ISF-JS-Renderer/issues"
   },
+  "browserify": { "transform": [ "brfs" ] },
   "homepage": "https://github.com/msfeldstein/ISF-JS-Renderer",
   "devDependencies": {
     "brfs": "^1.4.3",
