@@ -7,10 +7,17 @@ function assetLoad(name) {
 	return fs.readFileSync('./tests/assets/' + name).toString()
 }
 
-test('Upgrade to v2', (t) => {
+test('Upgrade fragment shader to v2', (t) => {
 	var old = assetLoad('version1.fs')
-	var upgraded = ISFUpgrader(old)
+	var upgraded = ISFUpgrader.convertFragment(old)
 	t.equal(upgraded, assetLoad('version1.upgraded.fs'), "upgraded correctly")
+	t.end()
+})
+
+test('Upgrade vertex shader to v2', (t) => {
+	var old = assetLoad('version1.vs')
+	var upgraded = ISFUpgrader.convertVertex(old)
+	t.equal(upgraded, assetLoad('version1.upgraded.vs'), "upgraded correctly")
 	t.end()
 })
 
