@@ -1,6 +1,6 @@
 {
   "name": "interactive-shader-format",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "Rendering engine for Interactive Shader Format effects and generators",
   "main": "main.js",
   "directories": {
@@ -27,7 +27,11 @@
   "bugs": {
     "url": "https://github.com/msfeldstein/ISF-JS-Renderer/issues"
   },
-  "browserify": { "transform": [ "brfs" ] },
+  "browserify": {
+    "transform": [
+      "brfs"
+    ]
+  },
   "homepage": "https://github.com/msfeldstein/ISF-JS-Renderer",
   "devDependencies": {
     "brfs": "^1.4.3",
