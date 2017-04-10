@@ -8,6 +8,7 @@
   },
   "scripts": {
     "build": "browserify main.js -o build/main.js",
+    "build-global": "browserify global.js -o build/isf.global.js",
     "examples": "budo examples/app.js -o -l --host=localhost -- -t brfs",
     "test": "node tests/run.js | tap-spec",
     "watch-test": "nodemon tests/run.js | tap-spec"
