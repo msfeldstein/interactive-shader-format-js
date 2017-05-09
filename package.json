@@ -9,6 +9,7 @@
   "scripts": {
     "build": "browserify main.js -o build/main.js",
     "build-global": "browserify global.js -o build/isf.global.js",
+    "lint": "eslint lib/**",
     "examples": "budo examples/app.js -o -l --host=localhost -- -t brfs",
     "test": "node tests/run.js | tap-spec",
     "watch-test": "nodemon tests/run.js | tap-spec"
@@ -38,13 +39,22 @@
     "brfs": "^1.4.3",
     "browserify": "^13.1.0",
     "budo": "^8.3.0",
+    "eslint": "^3.19.0",
+    "eslint-config-airbnb": "^14.1.0",
+    "eslint-config-airbnb-base": "^11.1.3",
+    "eslint-plugin-import": "^2.2.0",
+    "eslint-plugin-jsx-a11y": "^5.0.1",
+    "eslint-plugin-react": "^7.0.0",
     "get-pixels": "^3.3.0",
     "gl": "^4.0.2",
     "image-diff": "^1.6.1",
+    "ndarray": "^1.0.18",
     "ndarray-imshow": "^1.0.1",
     "rmdir": "^1.2.0",
     "save-pixels": "^2.3.3",
-    "tap-spec": "^4.1.1",
-    "ndarray": "^1.0.18"
+    "tap-spec": "^4.1.1"
+  },
+  "dependencies": {
+    "eslint-config-airbnb": "^14.1.0"
   }
 }
