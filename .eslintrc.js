@@ -10,5 +10,6 @@ module.exports = {
       "no-console": 0,
       "no-mixed-operators": 0,
       "no-restricted-syntax": 0,
+      "no-underscore-dangle": 0,
     }
 };
