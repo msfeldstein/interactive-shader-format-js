@@ -1,3 +1,3 @@
-exports.Renderer = require('./lib/ISFRenderer');
-exports.Parser = require('./lib/ISFParser');
-exports.Upgrader = require('./lib/ISFUpgrader');
+exports.Renderer = require('./src/ISFRenderer');
+exports.Parser = require('./src/ISFParser');
+exports.Upgrader = require('./src/ISFUpgrader');
