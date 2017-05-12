@@ -1,3 +1,3 @@
-window.Renderer = require("./lib/ISFRenderer");
-window.Parser = require("./lib/ISFParser");
-window.Upgrader = require("./lib/ISFUpgrader");
+window.Renderer = require('./src/ISFRenderer');
+window.Parser = require('./src/ISFParser');
+window.Upgrader = require('./src/ISFUpgrader');

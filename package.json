@@ -2,16 +2,16 @@
   "name": "interactive-shader-format",
   "version": "2.3.0",
   "description": "Rendering engine for Interactive Shader Format effects and generators",
-  "main": "main.js",
+  "main": "lib/main.js",
   "directories": {
     "example": "example"
   },
   "scripts": {
-    "build": "browserify main.js -o build/main.js",
+    "build": "browserify main.js -t babelify -o lib/main.js",
     "build-global": "browserify global.js -o build/isf.global.js",
     "lint": "eslint src/**",
     "examples": "budo examples/app.js -o -l --host=localhost -- -t brfs",
-    "prepublish": "",
+    "prepublish": "npm run build",
     "test": "node tests/run.js | tap-spec",
     "watch-test": "nodemon tests/run.js | tap-spec"
   },
@@ -30,11 +30,9 @@
   "bugs": {
     "url": "https://github.com/msfeldstein/ISF-JS-Renderer/issues"
   },
-  "babel": {
-    "presets": ["es2015"]
-  },
   "homepage": "https://github.com/msfeldstein/ISF-JS-Renderer",
   "devDependencies": {
+    "babelify": "^7.3.0",
     "brfs": "^1.4.3",
     "browserify": "^13.1.0",
     "budo": "^8.3.0",
@@ -54,6 +52,7 @@
     "tap-spec": "^4.1.1"
   },
   "dependencies": {
+    "babel-preset-es2015": "^6.24.1",
     "eslint-config-airbnb": "^14.1.0"
   }
 }
