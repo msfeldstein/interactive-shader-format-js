@@ -14,7 +14,17 @@ module.exports = function MetadataExtractor(rawFragmentShader) {
   try {
     metadata = JSON.parse(metadataString);
   } catch (e) {
-    throw new Error('Something is wrong with your metadata');
+    const tokens = e.message.split(' ');
+    const position = parseInt(tokens[tokens.length - 1], 10);
+    let lineNumber = 0;
+    for (let i = 0; i < position; i++) {
+      if (metadataString[i] === '\n') {
+        lineNumber++;
+      }
+    }
+    const lineError = new Error('Something is wrong with your metadata at position ' + position + ' and line ' + lineNumber);
+    lineError.lineNumber = lineNumber;
+    throw lineError;
   }
 
   const startIndex = rawFragmentShader.indexOf('/*');

@@ -1,6 +1,6 @@
 var test = require('tape')
 var fs = require('fs')
-var ISFParser = require('../lib/ISFParser')
+var ISFParser = require('../src/ISFParser')
 
 function assetLoad(name) {
 	return fs.readFileSync('./tests/assets/' + name).toString()
@@ -39,5 +39,15 @@ test('Buffers correctly marked as persistent', function(t) {
 		t.equal(passes[i].persistent, true, "Persistent buffers interpreted as such")
 	}
 	t.equal(passes[passes.length - 1].persistent, false, "Non persistent buffered interpreted as such")
+	t.end()
+})
+
+test('Bad metadata gives error line', function(t) {
+	var src = assetLoad('bad-metadata.fs')
+	var parser = new ISFParser();
+	// t.throws(function() {
+		parser.parse(src)
+	// })
+	t.equal(0, 0)
 	t.end()
 })

@@ -5,7 +5,9 @@ var savePixels = require("save-pixels")
 var gl = require('gl')
 var ndarray = require('ndarray')
 var imageDiff = require('image-diff')
-var ISFRenderer = require('../lib/ISFRenderer')
+var ISFRenderer = require('../src/ISFRenderer')
+
+if (!fs.existsSync('tmp')) fs.mkdirSync('tmp')
 
 function assetLoad(name) {
 	return fs.readFileSync('./tests/assets/' + name).toString()
@@ -26,14 +28,14 @@ function matchFilterToExpected(src, expected, callbacks) {
 	var pixels = new Uint8Array(width * height * 4)
 	ctx.readPixels(0, 0, width, height, ctx.RGBA, ctx.UNSIGNED_BYTE, pixels)
 	var nd = ndarray(pixels, [width, height, 4])
-	var filename = "tmp/" + Math.random() + ".png"
+	var filename = "./tmp/" + Math.random() + ".png"
 	var writableStream = fs.createWriteStream(filename)
 	savePixels(nd, "png").pipe(writableStream)
 	var expectedFilename = expected.split('/')[expected.split('/').length - 1]
 	imageDiff({
 		actualImage: filename,
 		expectedImage: expected,
-		diffImage: 'tmp/diff.' + expectedFilename
+		diffImage: './tmp/diff.' + expectedFilename
 	}, function(err, areSame) {
 		if (err) throw err
 		callbacks.finished(areSame)

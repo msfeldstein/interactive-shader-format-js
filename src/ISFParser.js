@@ -47,12 +47,12 @@ ISFParser.prototype.parse = function parse(rawFragmentShader, rawVertexShader) {
     this.inferFilterType();
     this.isfVersion = this.inferISFVersion();
   } catch (e) {
-    console.log("Error", e)
     this.valid = false;
     this.error = e;
     this.inputs = [];
     this.categories = [];
     this.credit = '';
+    this.errorLine = e.lineNumber;
   }
 };
 
