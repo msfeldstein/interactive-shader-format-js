@@ -2,12 +2,12 @@
   "name": "interactive-shader-format",
   "version": "2.6.0",
   "description": "Rendering engine for Interactive Shader Format effects and generators",
-  "main": "main.js",
+  "main": "lib/main.js",
   "directories": {
     "example": "example"
   },
   "scripts": {
-    "build": "browserify main.js -t babelify -o lib/main.js",
+    "build": "babel -d lib/ src/  && browserify -t babelify lib/main.js -o build/build.js",
     "build-global": "browserify global.js -o build/isf.global.js",
     "lint": "eslint src/**",
     "examples": "budo examples/app.js -o -l --host=localhost -- -t brfs",
