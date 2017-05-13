@@ -26,6 +26,12 @@ ISFRenderer.prototype.sourceChanged = function sourceChanged(fragmentShader, ver
   this.fragmentShader = fragmentShader;
   this.vertexShader = vertexShader;
   this.model = model;
+  if (!this.model.valid) {
+    this.valid = false;
+    this.error = this.model.error;
+    this.errorLine = this.model.errorLine;
+    return;
+  }
   try {
     this.valid = true;
     this.error = null;

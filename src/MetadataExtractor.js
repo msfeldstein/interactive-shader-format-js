@@ -16,7 +16,7 @@ module.exports = function MetadataExtractor(rawFragmentShader) {
   } catch (e) {
     const tokens = e.message.split(' ');
     const position = parseInt(tokens[tokens.length - 1], 10);
-    let lineNumber = 0;
+    let lineNumber = 1;
     for (let i = 0; i < position; i++) {
       if (metadataString[i] === '\n') {
         lineNumber++;
