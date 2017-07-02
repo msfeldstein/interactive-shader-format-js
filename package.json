@@ -8,7 +8,7 @@
   },
   "scripts": {
     "build": "babel -d lib/ src/  && browserify -t babelify lib/main.js -o build/build.js",
-    "post-install": "babel -d lib/ src/  && browserify -t babelify lib/main.js -o build/build.js",
+    "postinstall": "babel -d lib/ src/  && browserify -t babelify lib/main.js -o build/build.js",
     "build-global": "browserify global.js -o build/isf.global.js",
     "lint": "eslint src/**",
     "examples": "budo examples/app.js -o -l --host=localhost -- -t brfs",
