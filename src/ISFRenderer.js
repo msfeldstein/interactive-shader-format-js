@@ -43,7 +43,7 @@ ISFRenderer.prototype.sourceChanged = function sourceChanged(fragmentShader, ver
       if (input.DEFAULT !== undefined) {
         this.setValue(input.NAME, input.DEFAULT);
       }
-    }  
+    }
   } catch (e) {
     this.valid = false;
     this.error = e;
@@ -347,7 +347,7 @@ ISFRenderer.prototype.draw = function draw(destination) {
 
 ISFRenderer.prototype.evaluateSize = function evaluateSize(destination, formula) {
   formula += '';
-  let s = formula.replace('$WIDTH', destination.offsetWidth).replace('$HEIGHT', destination.offsetHeight);
+  let s = formula.replace('$WIDTH', destination.offsetWidth || destination.width).replace('$HEIGHT', destination.offsetHeight || destination.height);
   for (const name in this.uniforms) {
     if ({}.hasOwnProperty.call(this.uniforms, name)) {
       const uniform = this.uniforms[name];
