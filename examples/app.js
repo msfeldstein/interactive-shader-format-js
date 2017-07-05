@@ -1,9 +1,34 @@
-var ISFRenderer = require('../lib/ISFRenderer')
+/* eslint-disable */
+
+var ISFRenderer = window.interactiveShaderFormat.Renderer;
 
 var video = null;
 var time = 0;
+var renderers = [];
+var raf = null;
+
+var mainCanvas = document.createElement('canvas');
+mainCanvas.width = window.innerWidth / 2;
+mainCanvas.height = window.innerHeight / 2;
+var gl = mainCanvas.getContext('webgl');
+
+var animate = function () {
+  raf = requestAnimationFrame(animate);
+  renderers.forEach((rendererObj) => {
+    const renderer = rendererObj.renderer;
+    const canvas = rendererObj.canvas;
+    const context = rendererObj.context;
+    renderer.setValue('inputImage', video);
+    renderer.setValue('TIME', time);
+    renderer.draw(mainCanvas);
+
+    context.drawImage(mainCanvas, 0, 0);
+  });
+  time += 0.01;
+}
+
 function loadFile(src, callback) {
-  fetch("examples/" + src).then(function(response) {
+  fetch('/examples/' + src).then(function(response) {
     response.text().then(function(body) {
       callback(body);
     })
@@ -20,10 +45,13 @@ function createRendering(fsFilename, vsFilename, label) {
       vsLoaded()
     }
   }
+
   var vsLoaded = function(vsSrc) {
     var container = document.createElement('div');
     var canvas = document.createElement('canvas');
+    var context = canvas.getContext('2d');
     var title = document.createElement('div');
+
     title.style.position = 'absolute';
     title.style.top = '0'
     title.style.color = 'white';
@@ -33,27 +61,27 @@ function createRendering(fsFilename, vsFilename, label) {
     container.appendChild(title);
     title.textContent = fsFilename;
     if (label) {
-      title.textContent += "(" + label + ")"
+      title.textContent += '(' + label + ')';
     }
     canvas.width = window.innerWidth / 2;
     canvas.height = window.innerHeight / 2;
     document.body.appendChild(container);
-    var gl = canvas.getContext("webgl");
+
     var renderer = new ISFRenderer(gl);
     renderer.loadSource(fsSrc, vsSrc);
-    var animate = function () {
-      requestAnimationFrame(animate);
-      renderer.setValue("inputImage", video);
-      renderer.setValue("TIME", time);
-      renderer.draw(canvas);
-      time += 0.01;
-    }
-    animate();
+
+    renderers.push({
+      renderer,
+      canvas,
+      context
+    });
+    if(!raf) animate();
   }
+
   loadFile(fsFilename, fsLoaded);
 
 }
-window.addEventListener("load", function() {
+window.addEventListener('load', function() {
 
   video = document.createElement('video');
   var videoStarted = function(localMediaStream) {
