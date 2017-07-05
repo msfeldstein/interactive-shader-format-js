@@ -1,10 +1,11 @@
+import { eval as mathJsEval } from 'mathjs';
+
 const ISFGLState = require('./ISFGLState.js');
 const ISFGLProgram = require('./ISFGLProgram.js');
 const ISFBuffer = require('./ISFBuffer.js');
 const ISFParser = require('./ISFParser.js');
 const ISFTexture = require('./ISFTexture.js');
 const LineMapper = require('./ISFLineMapper');
-const MathJS = require('../vendor/math.js');
 
 function ISFRenderer(gl) {
   this.gl = gl;
@@ -43,7 +44,7 @@ ISFRenderer.prototype.sourceChanged = function sourceChanged(fragmentShader, ver
       if (input.DEFAULT !== undefined) {
         this.setValue(input.NAME, input.DEFAULT);
       }
-    }  
+    }
   } catch (e) {
     this.valid = false;
     this.error = e;
@@ -69,6 +70,7 @@ ISFRenderer.prototype.initUniforms = function initUniforms() {
 };
 
 ISFRenderer.prototype.setValue = function setValue(name, value) {
+  this.program.use();
   const uniform = this.uniforms[name];
   if (!uniform) {
     console.error(`No uniform named ${name}`);
@@ -276,6 +278,7 @@ ISFRenderer.prototype.typeToUniform = function typeToUniform(type) {
 };
 
 ISFRenderer.prototype.setDateUniforms = function setDateUniforms() {
+  this.program.use();
   const now = Date.now();
   this.setValue('TIME', (now - this.startTime) / 1000);
   this.setValue('TIMEDELTA', (now - this.lastRenderTime) / 1000);
@@ -347,15 +350,15 @@ ISFRenderer.prototype.draw = function draw(destination) {
 
 ISFRenderer.prototype.evaluateSize = function evaluateSize(destination, formula) {
   formula += '';
-  let s = formula.replace('$WIDTH', destination.offsetWidth).replace('$HEIGHT', destination.offsetHeight);
+  let s = formula.replace('$WIDTH', destination.offsetWidth || destination.width).replace('$HEIGHT', destination.offsetHeight || destination.height);
   for (const name in this.uniforms) {
     if ({}.hasOwnProperty.call(this.uniforms, name)) {
       const uniform = this.uniforms[name];
       s = s.replace(`$${name}`, uniform.value);
     }
   }
-  if (!this.math) this.math = new MathJS();
-  return this.math.eval(s);
+
+  return mathJsEval(s);
 };
 
 ISFRenderer.prototype.cleanup = function cleanup() {
