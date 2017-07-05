@@ -4,7 +4,7 @@ const ISFBuffer = require('./ISFBuffer.js');
 const ISFParser = require('./ISFParser.js');
 const ISFTexture = require('./ISFTexture.js');
 const LineMapper = require('./ISFLineMapper');
-const MathJS = require('../vendor/math.js');
+const MathJS = require('mathjs');
 
 function ISFRenderer(gl) {
   this.gl = gl;
@@ -69,6 +69,7 @@ ISFRenderer.prototype.initUniforms = function initUniforms() {
 };
 
 ISFRenderer.prototype.setValue = function setValue(name, value) {
+  this.program.use();
   const uniform = this.uniforms[name];
   if (!uniform) {
     console.error(`No uniform named ${name}`);
@@ -276,6 +277,7 @@ ISFRenderer.prototype.typeToUniform = function typeToUniform(type) {
 };
 
 ISFRenderer.prototype.setDateUniforms = function setDateUniforms() {
+  this.program.use();
   const now = Date.now();
   this.setValue('TIME', (now - this.startTime) / 1000);
   this.setValue('TIMEDELTA', (now - this.lastRenderTime) / 1000);
@@ -354,7 +356,7 @@ ISFRenderer.prototype.evaluateSize = function evaluateSize(destination, formula)
       s = s.replace(`$${name}`, uniform.value);
     }
   }
-  if (!this.math) this.math = new MathJS();
+  if (!this.math) this.math = MathJS;
   return this.math.eval(s);
 };
 
