@@ -4,7 +4,7 @@ const ISFBuffer = require('./ISFBuffer.js');
 const ISFParser = require('./ISFParser.js');
 const ISFTexture = require('./ISFTexture.js');
 const LineMapper = require('./ISFLineMapper');
-const MathJS = require('mathjs');
+const MathJS = require('../vendor/math.js');
 
 function ISFRenderer(gl) {
   this.gl = gl;
@@ -356,7 +356,7 @@ ISFRenderer.prototype.evaluateSize = function evaluateSize(destination, formula)
       s = s.replace(`$${name}`, uniform.value);
     }
   }
-  if (!this.math) this.math = MathJS;
+  if (!this.math) this.math = new MathJS();
   return this.math.eval(s);
 };
 
