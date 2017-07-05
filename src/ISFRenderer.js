@@ -69,6 +69,7 @@ ISFRenderer.prototype.initUniforms = function initUniforms() {
 };
 
 ISFRenderer.prototype.setValue = function setValue(name, value) {
+  this.program.use();
   const uniform = this.uniforms[name];
   if (!uniform) {
     console.error(`No uniform named ${name}`);
@@ -276,6 +277,7 @@ ISFRenderer.prototype.typeToUniform = function typeToUniform(type) {
 };
 
 ISFRenderer.prototype.setDateUniforms = function setDateUniforms() {
+  this.program.use();
   const now = Date.now();
   this.setValue('TIME', (now - this.startTime) / 1000);
   this.setValue('TIMEDELTA', (now - this.lastRenderTime) / 1000);
