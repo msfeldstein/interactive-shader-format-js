@@ -149,6 +149,12 @@ ISFParser.prototype.replaceSpecialFunctions = function replaceSpecialFunctions(s
     const coord = results[1];
     return `VVSAMPLER_2DBYNORM(${sampler}, _${sampler}_imgRect, _${sampler}_imgSize, _${sampler}_flip, ${coord})`;
   });
+
+  // IMG_SIZE
+  regex = /IMG_SIZE\((.+?)\)/g;
+  source = source.replace(regex, (fullMatch, imgName) => {
+    return `_${imgName}_imgSize`;
+  });
   return source;
 };
 
