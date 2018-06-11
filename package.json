@@ -1,6 +1,6 @@
 {
   "name": "interactive-shader-format",
-  "version": "2.7.0",
+  "version": "2.8.0",
   "description": "Rendering engine for Interactive Shader Format effects and generators",
   "main": "lib/main.js",
   "directories": {
