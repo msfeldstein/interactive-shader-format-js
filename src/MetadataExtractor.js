@@ -1,4 +1,4 @@
-const jsonParse = require('./json_parse');
+const jsonParse = require('../vendor/json_parse');
 
 const METADATA_ERROR_PREFIX = 'Something is wrong with your ISF metadata';
 
