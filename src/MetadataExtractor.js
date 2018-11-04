@@ -1,3 +1,7 @@
+const jsonParse = require('./json_parse');
+
+const METADATA_ERROR_PREFIX = 'Something is wrong with your ISF metadata';
+
 module.exports = function MetadataExtractor(rawFragmentShader) {
   // First pull out the comment JSON to get the metadata.
   // This regex (should) match quotes in the form /* */.
@@ -12,19 +16,24 @@ module.exports = function MetadataExtractor(rawFragmentShader) {
   metadataString = metadataString.substring(1, metadataString.length - 1);
   let metadata;
   try {
-    metadata = JSON.parse(metadataString);
+    metadata = jsonParse(metadataString);
   } catch (e) {
-    const tokens = e.message.split(' ');
-    const position = parseInt(tokens[tokens.length - 1], 10);
-    let lineNumber = 1;
-    for (let i = 0; i < position; i++) {
-      if (metadataString[i] === '\n') {
-        lineNumber++;
-      }
+    const loc = e.at;
+    const message = (e.message || 'Invalid JSON');
+    if (loc) {
+      const lines = (metadataString || '')
+        .substring(0, loc)
+        .split(/\r\n|\r|\n/);
+      const lineNumber = lines.length;
+      const position = lines[lineNumber - 1].length;
+      const errorText = `${METADATA_ERROR_PREFIX}: ${message}\
+        at line ${lineNumber} and position ${position}`;
+      const enrichedError = new Error(errorText);
+      enrichedError.lineNumber = lineNumber;
+      enrichedError.position = position;
+      throw enrichedError;
     }
-    const lineError = new Error('Something is wrong with your metadata at position ' + position + ' and line ' + lineNumber);
-    lineError.lineNumber = lineNumber;
-    throw lineError;
+    throw new Error(`${METADATA_ERROR_PREFIX}: ${message}`);
   }
 
   const startIndex = rawFragmentShader.indexOf('/*');
