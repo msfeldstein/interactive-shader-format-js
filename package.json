@@ -49,7 +49,8 @@
     "ndarray-imshow": "^1.0.1",
     "rmdir": "^1.2.0",
     "save-pixels": "^2.3.3",
-    "tap-spec": "^4.1.1"
+    "tap-spec": "^4.1.1",
+    "tape": "^4.9.1"
   },
   "dependencies": {
     "babel-preset-es2015": "^6.24.1",
