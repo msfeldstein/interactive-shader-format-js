@@ -10,8 +10,9 @@ let raf = null;
 const mainCanvas = new OffscreenCanvas(256, 256);
 const mainContext = mainCanvas.getContext('webgl');
 
-let textCanvas;
-let textContext;
+const textCanvas = new OffscreenCanvas(256, 256);
+const textContext = textCanvas.getContext('2d');
+
 
 const text = 'ISF OffscreenCanvas 🙌';
 
@@ -40,7 +41,7 @@ const frame = (delta) => {
   textContext.textAlign = 'center';
   textContext.fillStyle = 'black';
   textContext.fillRect(0, 0, width, height);
-  textContext.fillStyle = `hsl(${delta / 40}, 80%, 50%)`;
+  textContext.fillStyle = `hsl(${delta / 40}, 80%, 60%)`;
   textContext.fillText(
     text,
     Math.round((width / 2) + ((10 * Math.sin(delta / 400)) * (3 * -Math.sin(delta / 380)))),
@@ -56,7 +57,6 @@ const frame = (delta) => {
     }
 
     renderer.setValue('inputImage', textCanvas);
-    renderer.setValue('TIME', delta);
     renderer.draw(mainCanvas);
 
     context.drawImage(mainCanvas, 0, 0);
@@ -94,11 +94,6 @@ onmessage = (e) => {
       size.width = width;
       size.height = height;
       resizeQueued = true;
-      break;
-
-    case '2dcanvas':
-      textCanvas = payload.canvas;
-      textContext = textCanvas.getContext('2d');
       break;
 
     default:

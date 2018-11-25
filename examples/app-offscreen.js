@@ -17,18 +17,6 @@ const flexContainer = document.createElement('div');
 flexContainer.classList.add('flex');
 document.body.appendChild(flexContainer);
 
-const canvas = document.createElement('canvas');
-document.body.appendChild(canvas);
-
-const offscreen = canvas.transferControlToOffscreen();
-
-worker.postMessage({
-  message: '2dcanvas',
-  payload: {
-    canvas: offscreen,
-  },
-}, [ offscreen ]);
-
 async function createRendering(fsFilename, vsFilename, label) {
   const fragmentShader = await loadFile(fsFilename);
   let vertexShader = null;
