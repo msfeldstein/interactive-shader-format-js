@@ -1,4 +1,4 @@
-import ISFRenderer from '../src/ISFRenderer';
+const ISFRenderer = require('../dist/build.js').Renderer;
 
 var video = null;
 var time = 0;
@@ -38,7 +38,7 @@ function createRendering(fsFilename, vsFilename, label) {
     canvas.width = window.innerWidth / 2;
     canvas.height = window.innerHeight / 2;
     document.body.appendChild(container);
-    var gl = canvas.getContext("webgl");
+    var gl = canvas.getContext("webgl2");
     var renderer = new ISFRenderer(gl);
     renderer.loadSource(fsSrc, vsSrc);
     var animate = function () {
@@ -53,7 +53,14 @@ function createRendering(fsFilename, vsFilename, label) {
   loadFile(fsFilename, fsLoaded);
 
 }
-window.addEventListener("load", function() {
+
+var button = document.createElement('button');
+button.textContent = 'Start webcam';
+document.body.appendChild(button);
+
+createRendering('tapestryfract.fs');
+
+button.addEventListener("click", function() {
 
   video = document.createElement('video');
   var videoStarted = function(localMediaStream) {
@@ -69,5 +76,4 @@ window.addEventListener("load", function() {
   createRendering('rgbtimeglitch.fs', undefined, "Has lots of buffers and passes");
   createRendering('rgbglitchmod.fs', undefined, "Has target on last pass");
   createRendering('edges.fs', 'edges.vs', "Has custom vertex shader");
-  // createRendering('tapestryfract.fs');
 })
