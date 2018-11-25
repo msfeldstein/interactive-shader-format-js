@@ -1,4 +1,4 @@
-const MetadataExtractor = require('./MetadataExtractor');
+import MetadataExtractor from './MetadataExtractor';
 
 const ConvertFragment = function ConvertFragment(fragShader) {
   const metadataInfo = MetadataExtractor(fragShader);
@@ -21,7 +21,7 @@ const ConvertVertex = function ConvertVertex(vertShader) {
   return vertShader;
 };
 
-module.exports = {
+export default {
   convertFragment: ConvertFragment,
   convertVertex: ConvertVertex,
 };

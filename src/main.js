@@ -1,4 +1,11 @@
-exports.Renderer = require('./ISFRenderer');
-exports.Parser = require('./ISFParser');
-exports.Upgrader = require('./ISFUpgrader');
-exports.MetadataExtractor = require('./MetadataExtractor');
+import Renderer from './ISFRenderer';
+import Parser from './ISFParser';
+import Upgrader from './ISFUpgrader';
+import MetadataExtractor from './MetadataExtractor';
+
+export {
+  Renderer,
+  Parser,
+  Upgrader,
+  MetadataExtractor,
+};

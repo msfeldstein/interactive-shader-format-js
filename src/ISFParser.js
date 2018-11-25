@@ -1,4 +1,4 @@
-const MetadataExtractor = require('./MetadataExtractor');
+import MetadataExtractor from './MetadataExtractor';
 /*
 
   Uniforms you will need to set, in addition to any inputs specified are
@@ -278,4 +278,4 @@ gl_Position = vec4( position, 0.0, 1.0 );
 }
 `;
 
-module.exports = ISFParser;
+export default ISFParser;

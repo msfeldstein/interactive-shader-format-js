@@ -41,4 +41,4 @@ ISFTexture.prototype.destroy = function destroy() {
   this.gl.deleteTexture(this.texture);
 };
 
-module.exports = ISFTexture;
+export default ISFTexture;

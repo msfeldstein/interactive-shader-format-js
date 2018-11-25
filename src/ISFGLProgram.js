@@ -36,7 +36,7 @@ ISFGLProgram.prototype.cleanup = function cleanup() {
   this.gl.deleteBuffer(this.buffer);
 };
 
-ISFGLProgram.prototype.createShader = function (src, type) {
+ISFGLProgram.prototype.createShader = function createShader(src, type) {
   const shader = this.gl.createShader(type);
   this.gl.shaderSource(shader, src);
   this.gl.compileShader(shader);
@@ -44,15 +44,15 @@ ISFGLProgram.prototype.createShader = function (src, type) {
   if (!compiled) {
     const lastError = this.gl.getShaderInfoLog(shader);
     console.log('Error Compiling Shader ', lastError);
-    throw {
+    throw new Error({
       message: lastError,
       type: 'shader',
-    };
+    });
   }
   return shader;
 };
 
-ISFGLProgram.prototype.createProgram = function (vShader, fShader) {
+ISFGLProgram.prototype.createProgram = function createProgram(vShader, fShader) {
   const program = this.gl.createProgram();
   this.gl.attachShader(program, vShader);
   this.gl.attachShader(program, fShader);
@@ -61,12 +61,13 @@ ISFGLProgram.prototype.createProgram = function (vShader, fShader) {
   if (!linked) {
     const lastError = this.gl.getProgramInfoLog(program);
     console.log('Error in program linking', lastError);
-    throw {
+    throw new Error({
       message: lastError,
       type: 'program',
-    };
+    });
   }
   return program;
 };
 
-module.exports = ISFGLProgram;
+
+export default ISFGLProgram;

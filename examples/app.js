@@ -1,4 +1,4 @@
-var ISFRenderer = require('../lib/ISFRenderer')
+import ISFRenderer from '../src/ISFRenderer';
 
 var video = null;
 var time = 0;
