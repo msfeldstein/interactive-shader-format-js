@@ -4,8 +4,9 @@ var getPixels = require('get-pixels');
 var savePixels = require('save-pixels');
 var gl = require('gl');
 var ndarray = require('ndarray');
-var imageDiff = require('image-diff');
-var ISFRenderer = require('../src/ISFRenderer');
+var pixelmatch = require('pixelmatch');
+var PNG = require('pngjs').PNG;
+var ISFRenderer = require('../dist/build-worker').interactiveShaderFormat.Renderer;
 
 if (!fs.existsSync('tmp')) {
   fs.mkdirSync('tmp');
@@ -45,21 +46,29 @@ function matchFilterToExpected(src, expected, callbacks) {
 
   var writableStream = fs.createWriteStream(filename);
 
-  savePixels(nd, 'png').pipe(writableStream);
+  const currentStream = savePixels(nd, 'png').pipe(writableStream);
 
   var expectedFilename = expected.split('/')[expected.split('/').length - 1];
 
-  imageDiff({
-    actualImage: filename,
-    expectedImage: expected,
-    diffImage: `./tmp/diff.${expectedFilename}`,
-  }, function(err, areSame) {
-    if (err) {
-      throw err;
-    }
+  const img1 = fs.createReadStream(filename).pipe(new PNG()).on('parsed', doneReading);
+  const img2 = fs.createReadStream(expected).pipe(new PNG()).on('parsed', doneReading);
+  let filesRead = 0;
 
-    callbacks.finished(areSame);
-  })
+  function doneReading() {
+    if (++filesRead < 2) return;
+    var diff = new PNG({width: img1.width, height: img1.height});
+
+    const numDiff = pixelmatch(img1.data, img2.data, diff.data, img1.width, img1.height, {
+      threshold: 0.1,
+    });
+
+    diff.pack().pipe(fs.createWriteStream(expectedFilename));
+
+    const goodEnough = !numDiff;
+    console.log(!numDiff ? 'No difference!' : `Got ${numDiff} different pixel(s)`);
+
+    callbacks.finished(goodEnough);
+  }
 }
 
 test('Basic Generator Rendering', function(t) {
@@ -72,8 +81,7 @@ test('Basic Generator Rendering', function(t) {
   };
 
   matchFilterToExpected(generatorSrc, './tests/expected/generator.png', callbacks);
-})
-
+});
 
 test('Persistent Buffers', function(t) {
   var generatorSrc = assetLoad('persistent-buffers.fs')
@@ -95,4 +103,4 @@ test('Persistent Buffers', function(t) {
   }
 
   matchFilterToExpected(generatorSrc, './tests/expected/persistent-buffers.png', callbacks);
-})
+});

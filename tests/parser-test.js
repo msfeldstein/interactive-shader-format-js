@@ -1,6 +1,6 @@
 var test = require('tape');
 var fs = require('fs');
-var ISFParser = require('../src/ISFParser');
+var ISFParser = require('../dist/build-worker').interactiveShaderFormat.Parser;
 
 function assetLoad(name) {
   return fs.readFileSync('./tests/assets/' + name).toString();
