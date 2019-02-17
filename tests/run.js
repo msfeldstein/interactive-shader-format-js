@@ -1,5 +1,5 @@
-require('rmdir')("./tmp")
+require('rmdir')('./tmp');
 
-require('./parser-test')
-require('./renderer-test')
-require('./upgrader-test')
+require('./parser-test');
+require('./renderer-test');
+require('./upgrader-test');

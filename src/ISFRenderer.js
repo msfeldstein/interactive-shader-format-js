@@ -1,10 +1,13 @@
-const ISFGLState = require('./ISFGLState.js');
-const ISFGLProgram = require('./ISFGLProgram.js');
-const ISFBuffer = require('./ISFBuffer.js');
-const ISFParser = require('./ISFParser.js');
-const ISFTexture = require('./ISFTexture.js');
-const LineMapper = require('./ISFLineMapper');
-const MathJS = require('../vendor/math.js');
+import math from 'mathjs-expression-parser';
+
+import ISFGLState from './ISFGLState';
+import ISFGLProgram from './ISFGLProgram';
+import ISFBuffer from './ISFBuffer';
+import ISFParser from './ISFParser';
+import ISFTexture from './ISFTexture';
+import LineMapper from './ISFLineMapper';
+
+const mathJsEval = math.eval;
 
 function ISFRenderer(gl) {
   this.gl = gl;
@@ -69,6 +72,8 @@ ISFRenderer.prototype.initUniforms = function initUniforms() {
 };
 
 ISFRenderer.prototype.setValue = function setValue(name, value) {
+  this.program.use();
+
   const uniform = this.uniforms[name];
   if (!uniform) {
     console.error(`No uniform named ${name}`);
@@ -142,9 +147,17 @@ ISFRenderer.prototype.pushTexture = function pushTexture(uniform) {
   if (!uniform.value) {
     return;
   }
-  if (uniform.value.tagName !== 'CANVAS' && !uniform.value.complete && uniform.value.readyState !== 4) {
+
+  if (
+    uniform.value.constructor.name !== 'OffscreenCanvas' &&
+    (
+      uniform.value.tagName !== 'CANVAS' &&
+      !uniform.value.complete &&
+      uniform.value.readyState !== 4)
+    ) {
     return;
   }
+
   const loc = this.program.getUniformLocation(uniform.name);
   uniform.texture.bind(loc);
   this.gl.texImage2D(
@@ -354,8 +367,8 @@ ISFRenderer.prototype.evaluateSize = function evaluateSize(destination, formula)
       s = s.replace(`$${name}`, uniform.value);
     }
   }
-  if (!this.math) this.math = new MathJS();
-  return this.math.eval(s);
+
+  return mathJsEval(s);
 };
 
 ISFRenderer.prototype.cleanup = function cleanup() {
@@ -371,4 +384,4 @@ ISFRenderer.prototype.basicVertexShader = "precision mediump float;\nprecision m
 
 ISFRenderer.prototype.basicFragmentShader = 'precision mediump float;\nuniform sampler2D tex;\nvarying vec2 texCoord;\nvoid main()\n{\n  gl_FragColor = texture2D(tex, texCoord * 0.5 + 0.5);\n  //gl_FragColor = vec4(texCoord.x);\n}';
 
-module.exports = ISFRenderer;
+export default ISFRenderer;

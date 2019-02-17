@@ -1,4 +1,4 @@
-const ISFTexture = require('./ISFTexture.js');
+import ISFTexture from './ISFTexture';
 
 function ISFBuffer(pass, contextState) {
   this.contextState = contextState;
@@ -53,4 +53,4 @@ ISFBuffer.prototype.destroy = function destroy() {
   this.gl.deleteFramebuffer(this.fbo);
 };
 
-module.exports = ISFBuffer;
+export default ISFBuffer;

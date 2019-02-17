@@ -13,4 +13,4 @@ ISFGLState.prototype.reset = function reset() {
   this.textureIndex = 0;
 };
 
-module.exports = ISFGLState;
+export default ISFGLState;

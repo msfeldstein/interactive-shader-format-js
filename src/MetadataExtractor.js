@@ -1,8 +1,10 @@
-const jsonParse = require('../vendor/json_parse');
+/* globals json_parse */
+
+import jsonParse from '../vendor/json_parse';
 
 const METADATA_ERROR_PREFIX = 'Something is wrong with your ISF metadata';
 
-module.exports = function MetadataExtractor(rawFragmentShader) {
+export default function MetadataExtractor(rawFragmentShader) {
   // First pull out the comment JSON to get the metadata.
   // This regex (should) match quotes in the form /* */.
   const regex = /\*([^*]|[\r\n]|(\*+([^*/]|[\r\n])))*\*+/;
