@@ -16,7 +16,7 @@ ISFGLProgram.prototype.getUniformLocation = function getUniformLocation(name) {
 
 ISFGLProgram.prototype.bindVertices = function bindVertices() {
   this.use();
-  const positionLocation = this.gl.getAttribLocation(this.program, 'position');
+  const positionLocation = this.gl.getAttribLocation(this.program, 'isf_position');
   this.buffer = this.gl.createBuffer();
   this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.buffer);
   const vertexArray = new Float32Array(
