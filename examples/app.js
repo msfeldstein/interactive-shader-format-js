@@ -74,19 +74,14 @@ document.body.appendChild(button);
 createRendering('tapestryfract.fs');
 
 button.addEventListener('click', function() {
-  video = document.createElement('video');
+  video = document.createElement('video')
+  video.autoplay = true
 
-  const videoStarted = (localMediaStream) => {
-    video.src = URL.createObjectURL(localMediaStream);
-    video.play();
-    video.loop = true;
-  };
-
-  navigator.webkitGetUserMedia(
-    { video: true },
-    videoStarted,
-    e => console.error,
-  );
+  navigator.mediaDevices.getUserMedia({
+    video: true
+  }).then(function(stream){
+    video.srcObject = stream        
+  })
 
   createRendering('badtv.fs', undefined, 'Simple');
   createRendering('feedback.fs', undefined, 'Has target on last pass');
