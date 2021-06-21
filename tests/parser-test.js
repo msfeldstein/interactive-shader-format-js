@@ -62,32 +62,34 @@ test('Bad metadata gives error line', function(t) {
   t.end();
 });
 
-test('IMG_NORM_PIXEL to VVSAMPLER_2DBYNORM', function(t) {
+test('IMG_NORM_PIXEL to VVSAMPLER_2DBYNORM', function (t) {
   let src = assetLoad('img_norm_pixel_isf.fs');
   const parser = new ISFParser();
   parser.parse(src);
   const { fragmentShader } = parser;
 
-  const test1 = `VVSAMPLER_2DBYNORM(inputImage, _inputImage_imgRect, _inputImage_imgSize, _inputImage_flip, isf_FragNormCoord);`
-  t.not(fragmentShader.indexOf(test1), -1, 'IMG_NORM_PIXEL(inputImage, isf_FragNormCoord);');
+  const IMG_NORM_PIXEL = (variable) => `IMG_NORM_PIXEL(inputImage, ${variable});`;
+  const VVSAMPLER_2DBYNORM = (variable) => `VVSAMPLER_2DBYNORM(inputImage, _inputImage_imgRect, _inputImage_imgSize, _inputImage_flip, ${variable});`;
 
-  const test2 = `VVSAMPLER_2DBYNORM(inputImage, _inputImage_imgRect, _inputImage_imgSize, _inputImage_flip, vec2(isf_FragNormCoord));`
-  t.not(fragmentShader.indexOf(test2), -1, 'IMG_NORM_PIXEL(inputImage, vec2(isf_FragNormCoord));');
+  const variableTypes = [
+    'isf_FragNormCoord',
+    'vec2(isf_FragNormCoord)',
+    'vec2(isf_FragNormCoord.x, isf_FragNormCoord.y)',
+    'vec2(x, y)',
+    'vec3(x, y, x).xy',
+    'vec4(x, y, x, y).xy',
+    'vec4(x,y,x,y).xy',
+  ];
 
-  const test3 = `VVSAMPLER_2DBYNORM(inputImage, _inputImage_imgRect, _inputImage_imgSize, _inputImage_flip, vec2(isf_FragNormCoord.x, isf_FragNormCoord.y));`
-  t.not(fragmentShader.indexOf(test3), -1, 'IMG_NORM_PIXEL(inputImage, vec2(isf_FragNormCoord.x, isf_FragNormCoord.y));');
+  variableTypes.forEach((variable) => {
+    const test = {
+      toReplace: IMG_NORM_PIXEL(variable),
+      expectedReplacement: VVSAMPLER_2DBYNORM(variable),
+      expectedIndex: -1
+    };
 
-  const test4 = `VVSAMPLER_2DBYNORM(inputImage, _inputImage_imgRect, _inputImage_imgSize, _inputImage_flip, vec2(x, y));`
-  t.not(fragmentShader.indexOf(test4), -1, 'IMG_NORM_PIXEL(inputImage, vec2(x, y));');
-
-  const test5 = `VVSAMPLER_2DBYNORM(inputImage, _inputImage_imgRect, _inputImage_imgSize, _inputImage_flip, vec3(x, y, x).xy);`
-  t.not(fragmentShader.indexOf(test5), -1, 'IMG_NORM_PIXEL(inputImage, vec3(x, y, x).xy);');
-
-  const test6 = `VVSAMPLER_2DBYNORM(inputImage, _inputImage_imgRect, _inputImage_imgSize, _inputImage_flip, vec4(x, y, x, y).xy);`
-  t.not(fragmentShader.indexOf(test6), -1, 'IMG_NORM_PIXEL(inputImage, vec4(x, y, x, y).xy);');
-
-  const test7 = `VVSAMPLER_2DBYNORM(inputImage, _inputImage_imgRect, _inputImage_imgSize, _inputImage_flip, vec4(x,y,x,y).xy);`
-  t.not(fragmentShader.indexOf(test7), -1, 'IMG_NORM_PIXEL(inputImage,vec4(x,y,x,y).xy);');
-
+    t.not(fragmentShader.indexOf(test.expectedReplacement), test.expectedIndex, test.toReplace);
+  });
+  
   t.end();
-})
+});
