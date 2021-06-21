@@ -61,3 +61,33 @@ test('Bad metadata gives error line', function(t) {
   t.equal(0, 0);
   t.end();
 });
+
+test('IMG_NORM_PIXEL to VVSAMPLER_2DBYNORM', function(t) {
+  let src = assetLoad('img_norm_pixel_isf.fs');
+  const parser = new ISFParser();
+  parser.parse(src);
+  const { fragmentShader } = parser;
+
+  const test1 = `VVSAMPLER_2DBYNORM(inputImage, _inputImage_imgRect, _inputImage_imgSize, _inputImage_flip, isf_FragNormCoord);`
+  t.not(fragmentShader.indexOf(test1), -1, 'IMG_NORM_PIXEL(inputImage, isf_FragNormCoord);');
+
+  const test2 = `VVSAMPLER_2DBYNORM(inputImage, _inputImage_imgRect, _inputImage_imgSize, _inputImage_flip, vec2(isf_FragNormCoord));`
+  t.not(fragmentShader.indexOf(test2), -1, 'IMG_NORM_PIXEL(inputImage, vec2(isf_FragNormCoord));');
+
+  const test3 = `VVSAMPLER_2DBYNORM(inputImage, _inputImage_imgRect, _inputImage_imgSize, _inputImage_flip, vec2(isf_FragNormCoord.x, isf_FragNormCoord.y));`
+  t.not(fragmentShader.indexOf(test3), -1, 'IMG_NORM_PIXEL(inputImage, vec2(isf_FragNormCoord.x, isf_FragNormCoord.y));');
+
+  const test4 = `VVSAMPLER_2DBYNORM(inputImage, _inputImage_imgRect, _inputImage_imgSize, _inputImage_flip, vec2(x, y));`
+  t.not(fragmentShader.indexOf(test4), -1, 'IMG_NORM_PIXEL(inputImage, vec2(x, y));');
+
+  const test5 = `VVSAMPLER_2DBYNORM(inputImage, _inputImage_imgRect, _inputImage_imgSize, _inputImage_flip, vec3(x, y, x).xy);`
+  t.not(fragmentShader.indexOf(test5), -1, 'IMG_NORM_PIXEL(inputImage, vec3(x, y, x).xy);');
+
+  const test6 = `VVSAMPLER_2DBYNORM(inputImage, _inputImage_imgRect, _inputImage_imgSize, _inputImage_flip, vec4(x, y, x, y).xy);`
+  t.not(fragmentShader.indexOf(test6), -1, 'IMG_NORM_PIXEL(inputImage, vec4(x, y, x, y).xy);');
+
+  const test7 = `VVSAMPLER_2DBYNORM(inputImage, _inputImage_imgRect, _inputImage_imgSize, _inputImage_flip, vec4(x,y,x,y).xy);`
+  t.not(fragmentShader.indexOf(test7), -1, 'IMG_NORM_PIXEL(inputImage,vec4(x,y,x,y).xy);');
+
+  t.end();
+})
