@@ -133,20 +133,14 @@ ISFParser.prototype.replaceSpecialFunctions = function replaceSpecialFunctions(s
   source = source.replace(regex, (fullMatch, innerMatch) => `texture2D(${innerMatch}, isf_FragNormCoord)`);
 
   // IMG_PIXEL
-  regex = /IMG_PIXEL\((.+?)\)/g;
-  source = source.replace(regex, (fullMatch, innerMatch) => {
-    const results = innerMatch.split(',');
-    const sampler = results[0];
-    const coord = results[1];
+  regex = /IMG_PIXEL\((.+?)\s?,\s?(.+?\)?\.?.*)\)/g;
+  source = source.replace(regex, (fullMatch, sampler, coord) => {
     return `texture2D(${sampler}, (${coord}) / RENDERSIZE)`;
   });
 
   // IMG_NORM_PIXEL
-  regex = /IMG_NORM_PIXEL\((.+?)\)/g;
-  source = source.replace(regex, (fullMatch, innerMatch) => {
-    const results = innerMatch.split(',');
-    const sampler = results[0];
-    const coord = results[1];
+  regex = /IMG_NORM_PIXEL\((.+?)\s?,\s?(.+?\)?\.?.*)\)/g;
+  source = source.replace(regex, (fullMatch, sampler, coord) => {
     return `VVSAMPLER_2DBYNORM(${sampler}, _${sampler}_imgRect, _${sampler}_imgSize, _${sampler}_flip, ${coord})`;
   });
 
