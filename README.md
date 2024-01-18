@@ -9,16 +9,18 @@ Renders ISF Effects and Compositions into a canvas
 ```
 var gl = canvas.getContext("webgl");
 
-# Instantiate the renderer with your webgl context
+// Instantiate the renderer with your webgl context
 var renderer = new ISFRenderer(gl);
 
-# Load up the source
+// Load up the source
 renderer.loadSource(fragmentISF, optionalVertexISF);
 
-# Set up any values passing either numbers, arrays of numbers, or image/video elements
+// Set up any values passing either numbers, arrays of numbers, or image/video elements
 renderer.setValue("someInput", someValue);
+// If you pass any image/video elements, you need to call `pushTextures` after to pass the images to webgl
+renderer.pushTextures();
 
-# Draw it into the canvas
+// Draw it into the canvas
 renderer.draw(canvas);
 ```
 
